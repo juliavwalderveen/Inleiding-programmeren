@@ -1,3 +1,4 @@
+// Array aanmaken voor de kaartjes
 const cardArray = [
     {
         name: 'Denemarken',
@@ -127,84 +128,93 @@ const cardArray = [
         name: 'Zweden3',
         img:'Zweden foto 16.jpg',
     }
-]
+];
 
+// Kaartjes random sorteren
 cardArray.sort(() => 0.5 - Math.random());
 
+// Variabelen aanmaken om later mee te kunnen werken
 const grid = document.querySelector("#grid");
-const resultaat = document.querySelector("#result");
+const resultGrid = document.querySelector("#result");
 let cardsChosen = [];
 let cardsChosenIds = [];
 let cardsWon = [];
 
 
+// Bord aanmaken
 function createBord() {
     for (let i = 0; i < cardArray.length; i++) {
-        const card = document.createElement('img');
-        card.setAttribute('src', 'Achterkant.svg');
-        card.setAttribute('data-id', i);
-        card.addEventListener('click', flipCard);
+        const card = document.createElement("img");
+        card.setAttribute("src", "Achterkant.svg");
+        card.setAttribute("data-id", i);
+        card.addEventListener("click", flipCard);
         grid.appendChild(card);
-        card.classList.add('card');
-    }
+        card.classList.add("card");
+    };
 }
 createBord()
 
+// Checken voor een match
 function checkMatch() {
     const cards = document.querySelectorAll("img");
-    const optionOneId = cardsChosenIds[0];
-    const optionTwoId = cardsChosenIds [1];
-    console.log("check for match!");
-    if (optionOneId == optionTwoId) {
-        cards[optionOneId].setAttribute("src", "Achterkant.svg");
-        cards[optionTwoId].setAttribute("src", "Achterkant.svg");
-        turnOffAlert("Je hebt al op dit plaatje geklikt, kies een andere");
+    const clickedOne = cardsChosenIds[0];
+    const clickedTwo = cardsChosenIds [1];
+    if (clickedOne == clickedTwo) {
+        cards[clickedOne].setAttribute("src", "Achterkant.svg");
+        cards[clickedTwo].setAttribute("src", "Achterkant.svg");
+        turnOffAlert("Je hebt al op dit plaatje geklikt, kies een andere"); // als je op dezelfde kaart klikt krijg je een melding
     }
 
     if (cardsChosen[0] == cardsChosen[1]) {
         turnOffAlert("Het is een match!");
-        console.log("hola")
-        cards[optionOneId].setAttribute("src", "white.png");
-        cards[optionTwoId].setAttribute("src", "white.png");
-        cards[optionOneId].removeEventListener("click", flipCard);
-        cards[optionTwoId].removeEventListener("click", flipCard);
+        const audioMatch = new Audio("pop2-84862.mp3"); // (Pixabay Mp3, z.d.)
+        audioMatch.play();
+        cards[clickedOne].setAttribute("src", "white.png");
+        cards[clickedTwo].setAttribute("src", "white.png");
+        cards[clickedOne].removeEventListener("click", flipCard);
+        cards[clickedTwo].removeEventListener("click", flipCard);
         cardsWon.push(cardsChosen);
     } else {
-        cards[optionOneId].setAttribute("src", "Achterkant.svg");
-        cards[optionTwoId].setAttribute("src", "Achterkant.svg");
+        cards[clickedOne].setAttribute("src", "Achterkant.svg");
+        cards[clickedTwo].setAttribute("src", "Achterkant.svg");
         turnOffAlert("Helaas, probeer opnieuw");
     }
 
-    resultaat.textContent = cardsWon.length;
-
+// Score van gevonden matches
+    resultGrid.textContent = cardsWon.length;
     cardsChosen = [];
     cardsChosenIds = [];
 
+// Einde spel wanneer alle matches gevonden zijn
     if (cardsWon.length == (cardArray.length/2)) {
-        resultaat.textContent = "gefeliciteerd!";
-        alert("Gefeliciteerd, je hebt alles gevonden")
+        resultGrid.textContent = "gefeliciteerd!";
+        alert("Gefeliciteerd, je hebt alles gevonden");
+        const audioFinish = new Audio("short-applause-96213.mp3"); // (Pixabay Mp3, z.d.)
+        audioFinish.play();
     }
 
 }
 
+// Functie om de kaarten te laten flippen
 function flipCard() {
     const cardId = this.getAttribute("data-id");
     cardsChosen.push(cardArray[cardId].name);
     cardsChosenIds.push(cardId);
-    console.log(cardsChosen);
-    console.log(cardsChosenIds);
+    const audioFlip = new Audio("flipcard-91468.mp3"); // (Pixabay Mp3, z.d.)
+    audioFlip.play();
     this.setAttribute("src", cardArray[cardId].img);
     if (cardsChosen.length === 2) {
-        setTimeout(checkMatch, 500);
+        setTimeout(checkMatch, 750);
     }
 }
 
+// Timer
 let minutesLabel = document.getElementById("minuten");
 let secondsLabel = document.getElementById("secondes");
 let totalSeconds = 0;
 let timerInterval = setInterval(setTime, 1000);
 
-
+// Seconden en minuten, stopt wanneer alle matches gevonden zijn
 function setTime() {
     ++totalSeconds;
     secondsLabel.innerHTML = pad(totalSeconds % 60);
@@ -213,7 +223,9 @@ function setTime() {
         clearInterval(timerInterval);
     }
 }
+// (Chat Gpt, z.d.) 
 
+// Zet integers om naar strings
 function pad(val) {
     let valString = val + "";
     if (valString.length < 2) {
@@ -224,10 +236,11 @@ function pad(val) {
     }
 }
 
+// Melding weg na een seconde
 function turnOffAlert(message) {
     // div aanmaken voor de alert
-    const alertBox = document.createElement('div');
-    alertBox.classList.add('alert');
+    const alertBox = document.createElement("div");
+    alertBox.classList.add("alert");
     alertBox.textContent = message;
 
     // Voegt de melding toe
@@ -243,5 +256,6 @@ function turnOffAlert(message) {
 
 
 
-
+// Bronnenlijst:
 // Chat gpt. (z.d.). Chatgpt. Geraadpleegd op 21 maart 2024, van https://chat.openai.com/
+// Pixabay mp3. (z.d.). Pixabay. Geraadpleegd op 21 maart 2024, van https://pixabay.com/nl/sound-effects/search/explosie/
