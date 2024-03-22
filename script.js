@@ -2,131 +2,131 @@
 const cardArray = [
     {
         name: 'Denemarken',
-        img:'Denemarken foto 1.jpg',
+        img:'img/Denemarken_foto_1.jpg',
     },
     {
         name: 'Hongarije',
-        img:'Hongarije foto 2.jpg',
+        img:'img/Hongarije_foto_2.jpg',
     },
     {
         name: 'Ierland',
-        img:'Ierland foto 3.jpg',
+        img:'img/Ierland_foto_3.jpg',
     },
     {
         name: 'Italie1',
-        img:'Italie foto 4.jpg',
+        img:'img/Italie_foto_4.jpg',
     },
     {
         name: 'Italie2',
-        img:'Italie foto 5.jpg',
+        img:'img/Italie_foto_5.jpg',
     },
     {
         name: 'Marokko1',
-        img:'Marokko foto 6.jpg',
+        img:'img/Marokko_foto_6.jpg',
     },
     {
         name: 'Marokko2',
-        img:'Marokko foto 7.jpg',
+        img:'img/Marokko_foto_7.jpg',
     },
     {
         name: 'Oostenrijk',
-        img:'Oostenrijk foto 8.jpg',
+        img:'img/Oostenrijk_foto_8.jpg',
     },
     {
         name: 'Polen',
-        img:'Polen foto 9.jpg',
+        img:'img/Polen_foto_9.jpg',
     },
     {
         name: 'Slovenie1',
-        img:'Slovenie foto 10.jpg',
+        img:'img/Slovenie_foto_10.jpg',
     },
     {
         name: 'Slovenie2',
-        img:'Slovenie foto 11.jpg',
+        img:'img/Slovenie_foto_11.jpg',
     },
     {
         name: 'Spanje',
-        img:'Spanje foto 12.jpeg',
+        img:'img/Spanje_foto_12.jpeg',
     },
     {
         name: 'Tsjechie',
-        img:'Tsjechie foto 13.jpg',
+        img:'img/Tsjechie_foto_13.jpg',
     },
     {
         name: 'Zweden1',
-        img:'Zweden foto 14.jpg',
+        img:'img/Zweden_foto_14.jpg',
     },
     {
         name: 'Zweden2',
-        img:'Zweden foto 15.jpg',
+        img:'img/Zweden_foto_15.jpg',
     },
     {
         name: 'Zweden3',
-        img:'Zweden foto 16.jpg',
+        img:'img/Zweden_foto_16.jpg',
     },
     {
         name: 'Denemarken',
-        img:'Denemarken foto 1.jpg',
+        img:'img/Denemarken_foto_1.jpg',
     },
     {
         name: 'Hongarije',
-        img:'Hongarije foto 2.jpg',
+        img:'img/Hongarije_foto_2.jpg',
     },
     {
         name: 'Ierland',
-        img:'Ierland foto 3.jpg',
+        img:'img/Ierland_foto_3.jpg',
     },
     {
         name: 'Italie1',
-        img:'Italie foto 4.jpg',
+        img:'img/Italie_foto_4.jpg',
     },
     {
         name: 'Italie2',
-        img:'Italie foto 5.jpg',
+        img:'img/Italie_foto_5.jpg',
     },
     {
         name: 'Marokko1',
-        img:'Marokko foto 6.jpg',
+        img:'img/Marokko_foto_6.jpg',
     },
     {
         name: 'Marokko2',
-        img:'Marokko foto 7.jpg',
+        img:'img/Marokko_foto_7.jpg',
     },
     {
         name: 'Oostenrijk',
-        img:'Oostenrijk foto 8.jpg',
+        img:'img/Oostenrijk_foto_8.jpg',
     },
     {
         name: 'Polen',
-        img:'Polen foto 9.jpg',
+        img:'img/Polen_foto_9.jpg',
     },
     {
         name: 'Slovenie1',
-        img:'Slovenie foto 10.jpg',
+        img:'img/Slovenie_foto_10.jpg',
     },
     {
         name: 'Slovenie2',
-        img:'Slovenie foto 11.jpg',
+        img:'img/Slovenie_foto_11.jpg',
     },
     {
         name: 'Spanje',
-        img:'Spanje foto 12.jpeg',
+        img:'img/Spanje_foto_12.jpeg',
     },
     {
         name: 'Tsjechie',
-        img:'Tsjechie foto 13.jpg',
+        img:'img/Tsjechie_foto_13.jpg',
     },
     {
         name: 'Zweden1',
-        img:'Zweden foto 14.jpg',
+        img:'img/Zweden_foto_14.jpg',
     },
     {
         name: 'Zweden2',
-        img:'Zweden foto 15.jpg',
+        img:'img/Zweden_foto_15.jpg',
     },
     {
         name: 'Zweden3',
-        img:'Zweden foto 16.jpg',
+        img:'img/Zweden_foto_16.jpg',
     }
 ];
 
@@ -140,6 +140,8 @@ let cardsChosen = [];
 let cardsChosenIds = [];
 let cardsWon = [];
 
+const cheat = document.querySelector("body")
+cheat.addEventListener("keydown", cheatF)
 
 // Bord aanmaken
 function createBord() {
@@ -167,7 +169,7 @@ function checkMatch() {
 
     if (cardsChosen[0] == cardsChosen[1]) {
         turnOffAlert("Het is een match!");
-        const audioMatch = new Audio("pop2-84862.mp3"); // (Pixabay Mp3, z.d.)
+        const audioMatch = new Audio("audio/pop2-84862.mp3"); // (Pixabay Mp3, z.d.)
         audioMatch.play();
         cards[clickedOne].setAttribute("src", "white.png");
         cards[clickedTwo].setAttribute("src", "white.png");
@@ -179,28 +181,40 @@ function checkMatch() {
         cards[clickedTwo].setAttribute("src", "Achterkant.svg");
         turnOffAlert("Helaas, probeer opnieuw");
     }
+    // (freeCodeCamp.org, 2022) en oud klasgenoot als hulp voor dit en bovenstaand stukje code
 
 // Score van gevonden matches
     resultGrid.textContent = cardsWon.length;
     cardsChosen = [];
     cardsChosenIds = [];
 
+    endGame();
+}
+
 // Einde spel wanneer alle matches gevonden zijn
+function endGame() {
     if (cardsWon.length == (cardArray.length/2)) {
         resultGrid.textContent = "gefeliciteerd!";
         alert("Gefeliciteerd, je hebt alles gevonden");
-        const audioFinish = new Audio("short-applause-96213.mp3"); // (Pixabay Mp3, z.d.)
+        const audioFinish = new Audio("audio/short-applause-96213.mp3"); // (Pixabay Mp3, z.d.)
         audioFinish.play();
     }
-
 }
+
+function cheatF() {
+    resultGrid.textContent = "gefeliciteerd!";
+    alert("Gefeliciteerd, je hebt alles gevonden");
+    const audioFinish = new Audio("short-applause-96213.mp3"); // (Pixabay Mp3, z.d.)
+    audioFinish.play();
+    }
+
 
 // Functie om de kaarten te laten flippen
 function flipCard() {
     const cardId = this.getAttribute("data-id");
     cardsChosen.push(cardArray[cardId].name);
     cardsChosenIds.push(cardId);
-    const audioFlip = new Audio("flipcard-91468.mp3"); // (Pixabay Mp3, z.d.)
+    const audioFlip = new Audio("audio/flipcard-91468.mp3"); // (Pixabay Mp3, z.d.)
     audioFlip.play();
     this.setAttribute("src", cardArray[cardId].img);
     if (cardsChosen.length === 2) {
@@ -259,3 +273,4 @@ function turnOffAlert(message) {
 // Bronnenlijst:
 // Chat gpt. (z.d.). Chatgpt. Geraadpleegd op 21 maart 2024, van https://chat.openai.com/
 // Pixabay mp3. (z.d.). Pixabay. Geraadpleegd op 21 maart 2024, van https://pixabay.com/nl/sound-effects/search/explosie/
+// freeCodeCamp.org. (2022, 28 februari). Learn JavaScript by Building 7 Games - Full Course [Video]. YouTube. https://www.youtube.com/watch?v=ec8vSKJuZTk
